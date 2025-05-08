@@ -3,11 +3,11 @@ import { ToDoContext } from '../context/ToDoContext'
 
 
 function ToDoInput() {
-    const [todo,todoInput] = useContext(ToDoContext);
+    const {todo,todoInput,addToDo} = useContext(ToDoContext);
   return (
     <div>
         <input type="text" onChange={todoInput} id="todoInput" placeholder='Enter a task' value = {todo} />
-        <button type="submit">Add</button>
+        <button onClick={addToDo} type="submit">Add</button>
     </div>
   )
 }
