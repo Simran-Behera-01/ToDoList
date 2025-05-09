@@ -17,7 +17,7 @@ function App() {
     if (todo != "") {
       setTodoList((prevToDos) => [
         ...prevToDos,
-        { todotext: todo, completed: false },
+        { todotext: todo, completed: false, edit: false },
       ]);
       setTodo("");
     }
@@ -32,12 +32,29 @@ function App() {
   }
 
   function handleCompletedToDo(completedTodo, todoIndex) {
-    completedTodo.completed = true;
     setCompletedTodoList((completedTodos) => [
       ...completedTodos,
-      completedTodo,
+      { ...completedTodo, completed: true },
     ]);
     deleteToDo(todoIndex);
+  }
+
+  function handleEditEvent(todoIndex) {
+    setTodoList((prevToDos) =>
+      prevToDos.map((todo, index) => {
+        return todoIndex === index ? { ...todo, edit: true } : todo;
+      })
+    );
+  }
+
+  function handleSaveEvent(updatedTodo, todoIndex) {
+    setTodoList((prevToDos) =>
+      prevToDos.map((todo, index) => {
+        return todoIndex === index
+          ? { ...todo, todotext: updatedTodo, edit: false }
+          : todo;
+      })
+    );
   }
 
   return (
@@ -52,6 +69,8 @@ function App() {
             addToDo,
             deleteToDo,
             handleCompletedToDo,
+            handleEditEvent,
+            handleSaveEvent,
           }}
         >
           <ToDoInput />

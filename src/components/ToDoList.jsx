@@ -1,21 +1,14 @@
 import React, { useContext } from "react";
 import { ToDoContext } from "../context/ToDoContext";
+import ToDo from "./ToDo";
 
 function ToDoList() {
-  const { todoList, deleteToDo, handleCompletedToDo } = useContext(ToDoContext);
+  const { todoList } = useContext(ToDoContext);
   return (
     <ul>
       {todoList.map((todo, index) => (
         <li key={index}>
-          <input
-            type="checkbox"
-            checked={todo.completed}
-            onChange={(e) => {
-              handleCompletedToDo(todo, index);
-            }}
-          />
-          {todo.todotext}
-          <button onClick={() => deleteToDo(index)}>Delete</button>
+          <ToDo todo={todo} index={index} />
         </li>
       ))}
     </ul>
