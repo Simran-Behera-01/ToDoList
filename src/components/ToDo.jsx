@@ -12,7 +12,7 @@ function ToDo({ todo, index }) {
         type="checkbox"
         checked={todo.completed}
         onChange={(e) => {
-          handleCompletedToDo(todo, index);
+          handleCompletedToDo(index);
         }}
       />
       {todo.todotext}

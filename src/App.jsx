@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import "./App.css";
 import ToDoInput from "./components/ToDoInput";
 import { ToDoContext } from "./context/ToDoContext";
-import ToDoList from "./components/ToDoList";
+import ToDoFilter from "./components/ToDoFilter";
 
 function App() {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
-  const [completedTodoList, setCompletedTodoList] = useState([]);
 
   function todoInput(e) {
     setTodo(e.target.value);
@@ -31,12 +30,12 @@ function App() {
     );
   }
 
-  function handleCompletedToDo(completedTodo, todoIndex) {
-    setCompletedTodoList((completedTodos) => [
-      ...completedTodos,
-      { ...completedTodo, completed: true },
-    ]);
-    deleteToDo(todoIndex);
+  function handleCompletedToDo(todoIndex) {
+    setTodoList((prevToDos) =>
+      prevToDos.map((todo, index) => {
+        return todoIndex === index ? { ...todo, completed: true } : todo;
+      })
+    );
   }
 
   function handleEditEvent(todoIndex) {
@@ -74,7 +73,7 @@ function App() {
           }}
         >
           <ToDoInput />
-          <ToDoList />
+          <ToDoFilter />
         </ToDoContext.Provider>
       </div>
     </>

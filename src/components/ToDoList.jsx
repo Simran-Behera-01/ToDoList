@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
-import { ToDoContext } from "../context/ToDoContext";
+import React from "react";
 import ToDo from "./ToDo";
 
-function ToDoList() {
-  const { todoList } = useContext(ToDoContext);
+function ToDoList({todoList}) {
+  
   return (
     <ul>
       {todoList.map((todo, index) => (
