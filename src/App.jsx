@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { v4 as id } from "uuid";
 import "./App.css";
 import ToDoInput from "./components/ToDoInput";
 import { ToDoContext } from "./context/ToDoContext";
@@ -16,40 +17,38 @@ function App() {
     if (todo != "") {
       setTodoList((prevToDos) => [
         ...prevToDos,
-        { todotext: todo, completed: false, edit: false },
+        { id: id(), todotext: todo, completed: false, edit: false },
       ]);
       setTodo("");
     }
   }
 
-  function deleteToDo(todoIndex) {
+  function deleteToDo(todoId) {
     setTodoList((prevToDos) =>
-      prevToDos.filter(
-        (prevToDos, prevToDosIndex) => prevToDosIndex != todoIndex
-      )
+      prevToDos.filter((prevToDos) => prevToDos.id != todoId)
     );
   }
 
-  function handleCompletedToDo(todoIndex) {
+  function handleCompletedToDo(todoId) {
     setTodoList((prevToDos) =>
-      prevToDos.map((todo, index) => {
-        return todoIndex === index ? { ...todo, completed: true } : todo;
+      prevToDos.map((todo) => {
+        return todoId === todo.id ? { ...todo, completed: true } : todo;
       })
     );
   }
 
-  function handleEditEvent(todoIndex) {
+  function handleEditEvent(todoId) {
     setTodoList((prevToDos) =>
-      prevToDos.map((todo, index) => {
-        return todoIndex === index ? { ...todo, edit: true } : todo;
+      prevToDos.map((todo) => {
+        return todoId === todo.id ? { ...todo, edit: true } : todo;
       })
     );
   }
 
-  function handleSaveEvent(updatedTodo, todoIndex) {
+  function handleSaveEvent(updatedTodo, todoId) {
     setTodoList((prevToDos) =>
-      prevToDos.map((todo, index) => {
-        return todoIndex === index
+      prevToDos.map((todo) => {
+        return todoId === todo.id
           ? { ...todo, todotext: updatedTodo, edit: false }
           : todo;
       })

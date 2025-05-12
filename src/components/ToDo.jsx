@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ToDoContext } from "../context/ToDoContext";
 import EditToDoInput from "./EditToDoInput";
 
-function ToDo({ todo, index }) {
+function ToDo({ todo }) {
   const { deleteToDo, handleCompletedToDo, handleEditEvent } =
     useContext(ToDoContext);
 
@@ -12,15 +12,13 @@ function ToDo({ todo, index }) {
         type="checkbox"
         checked={todo.completed}
         onChange={(e) => {
-          handleCompletedToDo(index);
+          handleCompletedToDo(todo.id);
         }}
       />
       {todo.todotext}
-      <button onClick={() => handleEditEvent(index)}>Edit</button>
-      <button onClick={() => deleteToDo(index)}>Delete</button>
-      <div>
-        {todo.edit ? <EditToDoInput todo={todo} index={index} /> : null}
-      </div>
+      <button onClick={() => handleEditEvent(todo.id)}>Edit</button>
+      <button onClick={() => deleteToDo(todo.id)}>Delete</button>
+      <div>{todo.edit ? <EditToDoInput todo={todo} id={todo.id} /> : null}</div>
     </>
   );
 }
