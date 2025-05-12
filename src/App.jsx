@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as id } from "uuid";
 import "./App.css";
 import ToDoInput from "./components/ToDoInput";
@@ -9,50 +9,60 @@ function App() {
   const [todo, setTodo] = useState("");
   const [todoList, setTodoList] = useState([]);
 
+  useEffect(() => {
+    let todos = localStorage.getItem("todoList");
+    if (!todos) return;
+    setTodoList(JSON.parse(todos));
+  }, []);
+
   function todoInput(e) {
     setTodo(e.target.value);
   }
 
   function addToDo() {
     if (todo != "") {
-      setTodoList((prevToDos) => [
-        ...prevToDos,
+      let newTodoList = [
+        ...todoList,
         { id: id(), todotext: todo, completed: false, edit: false },
-      ]);
+      ];
+      setTodoList(newTodoList);
+      localStorage.setItem("todoList", JSON.stringify(newTodoList));
       setTodo("");
     }
   }
 
   function deleteToDo(todoId) {
-    setTodoList((prevToDos) =>
-      prevToDos.filter((prevToDos) => prevToDos.id != todoId)
+    let updatedTodoList = todoList.filter(
+      (prevToDos) => prevToDos.id != todoId
     );
+    setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   }
 
   function handleCompletedToDo(todoId) {
-    setTodoList((prevToDos) =>
-      prevToDos.map((todo) => {
-        return todoId === todo.id ? { ...todo, completed: true } : todo;
-      })
-    );
+    let updatedTodoList = todoList.map((todo) => {
+      return todoId === todo.id ? { ...todo, completed: true } : todo;
+    });
+    setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   }
 
   function handleEditEvent(todoId) {
-    setTodoList((prevToDos) =>
-      prevToDos.map((todo) => {
-        return todoId === todo.id ? { ...todo, edit: true } : todo;
-      })
-    );
+    let updatedTodoList = todoList.map((todo) => {
+      return todoId === todo.id ? { ...todo, edit: true } : todo;
+    });
+    setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   }
 
   function handleSaveEvent(updatedTodo, todoId) {
-    setTodoList((prevToDos) =>
-      prevToDos.map((todo) => {
-        return todoId === todo.id
-          ? { ...todo, todotext: updatedTodo, edit: false }
-          : todo;
-      })
-    );
+    let updatedTodoList = todoList.map((todo) => {
+      return todoId === todo.id
+        ? { ...todo, todotext: updatedTodo, edit: false }
+        : todo;
+    });
+    setTodoList(updatedTodoList);
+    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   }
 
   return (
