@@ -40,9 +40,18 @@ function App() {
   }
 
   function handleCompletedToDo(todoId) {
-    let updatedTodoList = todoList.map((todo) => {
-      return todoId === todo.id ? { ...todo, completed: true } : todo;
-    });
+    let currTodo = todoList.find((todo) => todo.id === todoId);
+    let isChecked = currTodo.completed;
+    let updatedTodoList;
+    if (!isChecked) {
+      updatedTodoList = todoList.map((todo) => {
+        return todoId === todo.id ? { ...todo, completed: true } : todo;
+      });
+    } else {
+      updatedTodoList = todoList.map((todo) => {
+        return todoId === todo.id ? { ...todo, completed: false } : todo;
+      });
+    }
     setTodoList(updatedTodoList);
     localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
   }
