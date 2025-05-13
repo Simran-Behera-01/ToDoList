@@ -6,18 +6,20 @@ function ToDo({ todo }) {
   const { deleteToDo, handleCompletedToDo, handleEditEvent } =
     useContext(ToDoContext);
 
+  const handleComplete = () => handleCompletedToDo(todo.id);
+  const handleEdit = () => handleEditEvent(todo.id);
+  const handleDelete = () => deleteToDo(todo.id);
+
   return (
     <>
       <input
         type="checkbox"
         checked={todo.completed}
-        onChange={(e) => {
-          handleCompletedToDo(todo.id);
-        }}
+        onChange={handleComplete}
       />
       {todo.todotext}
-      <button onClick={() => handleEditEvent(todo.id)}>Edit</button>
-      <button onClick={() => deleteToDo(todo.id)}>Delete</button>
+      <button onClick={handleEdit}>Edit</button>
+      <button onClick={handleDelete}>Delete</button>
       <div>{todo.edit ? <EditToDoInput todo={todo} id={todo.id} /> : null}</div>
     </>
   );

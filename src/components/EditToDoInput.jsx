@@ -4,6 +4,8 @@ import { ToDoContext } from "../context/ToDoContext";
 function EditToDoInput({ todo, id }) {
   const { handleSaveEvent } = useContext(ToDoContext);
   const [updatedTodo, setUpdatedTodo] = useState(todo.todotext);
+
+  const handleSave = () => handleSaveEvent(updatedTodo, id);
   return (
     <div>
       <input
@@ -11,7 +13,7 @@ function EditToDoInput({ todo, id }) {
         onChange={(e) => setUpdatedTodo(e.target.value)}
         value={updatedTodo}
       />
-      <button onClick={() => handleSaveEvent(updatedTodo, id)}>Save</button>
+      <button onClick={handleSave}>Save</button>
     </div>
   );
 }

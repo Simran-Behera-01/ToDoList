@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { v4 as id } from "uuid";
 import "./App.css";
 import ToDoInput from "./components/ToDoInput";
@@ -19,7 +19,8 @@ function App() {
     setTodo(e.target.value);
   }
 
-  function addToDo() {
+  const addToDo = useCallback(() => {
+    console.log(todo);
     if (todo != "") {
       let newTodoList = [
         ...todoList,
@@ -29,50 +30,53 @@ function App() {
       localStorage.setItem("todoList", JSON.stringify(newTodoList));
       setTodo("");
     }
-  }
+  }, [todo,todoList]);
 
-  function deleteToDo(todoId) {
-    let updatedTodoList = todoList.filter(
-      (prevToDos) => prevToDos.id != todoId
-    );
-    setTodoList(updatedTodoList);
-    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
-  }
+  const deleteToDo = useCallback(
+    (todoId) => {
+      let updatedTodoList = todoList.filter(
+        (prevToDos) => prevToDos.id != todoId
+      );
+      setTodoList(updatedTodoList);
+      localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    },
+    [todoList]
+  );
 
-  function handleCompletedToDo(todoId) {
-    let currTodo = todoList.find((todo) => todo.id === todoId);
-    let isChecked = currTodo.completed;
-    let updatedTodoList;
-    if (!isChecked) {
-      updatedTodoList = todoList.map((todo) => {
-        return todoId === todo.id ? { ...todo, completed: true } : todo;
+  const handleCompletedToDo = useCallback(
+    (todoId) => {
+      const updatedTodoList = todoList.map((todo) =>
+        todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
+      );
+      setTodoList(updatedTodoList);
+      localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    },
+    [todoList]
+  );
+
+  const handleEditEvent = useCallback(
+    (todoId) => {
+      let updatedTodoList = todoList.map((todo) => {
+        return todoId === todo.id ? { ...todo, edit: true } : todo;
       });
-    } else {
-      updatedTodoList = todoList.map((todo) => {
-        return todoId === todo.id ? { ...todo, completed: false } : todo;
+      setTodoList(updatedTodoList);
+      localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    },
+    [todoList]
+  );
+
+  const handleSaveEvent = useCallback(
+    (updatedTodo, todoId) => {
+      let updatedTodoList = todoList.map((todo) => {
+        return todoId === todo.id
+          ? { ...todo, todotext: updatedTodo, edit: false }
+          : todo;
       });
-    }
-    setTodoList(updatedTodoList);
-    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
-  }
-
-  function handleEditEvent(todoId) {
-    let updatedTodoList = todoList.map((todo) => {
-      return todoId === todo.id ? { ...todo, edit: true } : todo;
-    });
-    setTodoList(updatedTodoList);
-    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
-  }
-
-  function handleSaveEvent(updatedTodo, todoId) {
-    let updatedTodoList = todoList.map((todo) => {
-      return todoId === todo.id
-        ? { ...todo, todotext: updatedTodo, edit: false }
-        : todo;
-    });
-    setTodoList(updatedTodoList);
-    localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
-  }
+      setTodoList(updatedTodoList);
+      localStorage.setItem("todoList", JSON.stringify(updatedTodoList));
+    },
+    [todoList]
+  );
 
   return (
     <>

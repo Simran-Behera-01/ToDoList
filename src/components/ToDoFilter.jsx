@@ -7,6 +7,10 @@ function ToDoFilter() {
   const [selectedFilter, setSelectedFilter] = useState("Pending");
   const [selectedTodoList, setSelectedTodoList] = useState([]);
 
+  const showAll = () => handleFilter("All");
+  const showPending = () => handleFilter("Pending");
+  const showCompleted = () => handleFilter("Completed");
+
   useEffect(() => {
     if (selectedFilter === "All")
       setSelectedTodoList(todoList.map((todo) => todo));
@@ -22,9 +26,9 @@ function ToDoFilter() {
   return (
     <>
       <div>
-        <button onClick={() => handleFilter("All")}>All</button>
-        <button onClick={() => handleFilter("Pending")}>Pending</button>
-        <button onClick={() => handleFilter("Completed")}>Completed</button>
+        <button onClick={showAll}>All</button>
+        <button onClick={showPending}>Pending</button>
+        <button onClick={showCompleted}>Completed</button>
       </div>
       <ToDoList todoList={selectedTodoList} />
     </>
