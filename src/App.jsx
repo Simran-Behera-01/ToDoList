@@ -30,7 +30,7 @@ function App() {
       localStorage.setItem("todoList", JSON.stringify(newTodoList));
       setTodo("");
     }
-  }, [todo,todoList]);
+  }, [todo, todoList]);
 
   const deleteToDo = useCallback(
     (todoId) => {
@@ -79,9 +79,11 @@ function App() {
   );
 
   return (
-    <>
-      <div>
-        <h1>To Do List</h1>
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 to-blue-100 flex items-center justify-center px-4">
+      <div className="w-full max-w-xl bg-white rounded-xl shadow-lg p-8">
+        <h1 className="text-3xl font-bold text-indigo-600 text-center mb-6">
+          To Do List
+        </h1>
         <ToDoContext.Provider
           value={{
             todo,
@@ -98,7 +100,7 @@ function App() {
           <ToDoFilter />
         </ToDoContext.Provider>
       </div>
-    </>
+    </div>
   );
 }
 

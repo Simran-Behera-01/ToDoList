@@ -25,10 +25,25 @@ function ToDoFilter() {
   }
   return (
     <>
-      <div>
-        <button onClick={showAll}>All</button>
-        <button onClick={showPending}>Pending</button>
-        <button onClick={showCompleted}>Completed</button>
+      <div className="flex justify-center gap-4 mb-4">
+        <button
+          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          onClick={showAll}
+        >
+          All
+        </button>
+        <button
+          className="px-4 py-2 bg-yellow-200 rounded hover:bg-yellow-300"
+          onClick={showPending}
+        >
+          Pending
+        </button>
+        <button
+          className="px-4 py-2 bg-green-200 rounded hover:bg-green-300"
+          onClick={showCompleted}
+        >
+          Completed
+        </button>
       </div>
       <ToDoList todoList={selectedTodoList} />
     </>
