@@ -27,24 +27,39 @@ function ToDoFilter() {
     <>
       <div className="flex justify-center gap-4 mb-4">
         <button
-          className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300"
+          className={`px-4 py-2 rounded transition-colors duration-200 ${
+            selectedFilter === "All"
+              ? "bg-indigo-300 text-white"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
           onClick={showAll}
         >
           All
         </button>
+
         <button
-          className="px-4 py-2 bg-yellow-200 rounded hover:bg-yellow-300"
+          className={`px-4 py-2 rounded transition-colors duration-200 ${
+            selectedFilter === "Pending"
+              ? "bg-yellow-300 text-white"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
           onClick={showPending}
         >
           Pending
         </button>
+
         <button
-          className="px-4 py-2 bg-green-200 rounded hover:bg-green-300"
+          className={`px-4 py-2 rounded transition-colors duration-200 ${
+            selectedFilter === "Completed"
+              ? "bg-green-300 text-white"
+              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
+          }`}
           onClick={showCompleted}
         >
           Completed
         </button>
       </div>
+
       <ToDoList todoList={selectedTodoList} />
     </>
   );
